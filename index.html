@@ -13,20 +13,58 @@
     <nav>
         <div class="nav-body">
             <div class="logo">LOGO</div>
-            <div class="nav-search">
-                <div class="query-count"></div>
-                <input type="search" name="search" autofocus id="search" placeholder="Search by keyword">
+            <div class="nav-right">
 
-                <!-- show query  -->
-                <div class="search-result">
-                    
+                <div class="nav-search">
+                    <div class="query-count"></div>
+                    <input type="search" name="search" autofocus id="search" placeholder="Search by keyword">
+
+                    <!-- show query  -->
+                    <div class="search-result"></div>
+
+                    <!-- filter search -->
+                    <div class="search-filter">
+                        <button class="filter-btn" onclick="openFilter()">Filter</button>
+
+                        <!-- filter div -->
+                        <div class="filter-div">
+                            <div class="filter-head">
+                                <h5><span></span>Filters</h5>
+                                <span class="close-filter" onclick="openFilter()">&times</span>
+                            </div>
+
+                            <div class="filter-wrapper">
+
+                                <div class="filters">
+                                    <label for="filterOne">Display Filter :</label>
+                                    <input type="checkbox" onclick="filter('df')" name="df" id="filterOne">
+                                </div>
+
+                                <div class="filters">
+                                    <label for="filterTwo">Database Filter :</label>
+                                    <input type="checkbox" onclick="filter('db')" name="db" checked
+                                        id="filterTwo">
+                                </div>
+
+                                <div class="filters">
+                                    <label for="filterThree">Content Filter :</label>
+                                    <input type="checkbox" onclick="filter('cf')" name="cf"
+                                        id="filterThree">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
+
+                <div class="nav-link">
+                    <a href="Home">Home</a>
+                    <a href="About">About</a>
+                </div>
+
             </div>
-            <div class="nav-link">
-                <a href="Home">Home</a>
-                <a href="About">About</a>
-            </div>
-            
+
         </div>
     </nav>
 

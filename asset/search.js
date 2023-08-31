@@ -84,3 +84,47 @@ function navSearch(e) {
         searchResult[0].innerHTML = queryHtml;
     }
 }
+
+
+// filter modal opena and close 
+function openFilter() {
+    let filterBtn = document.getElementsByClassName('filter-btn');
+    let filterDiv = document.getElementsByClassName("filter-div");
+
+    if (filterDiv[0].classList.contains('filter-show')) {
+        filterDiv[0].classList.remove("filter-show");
+    } else {
+        filterDiv[0].classList.add("filter-show");
+    }
+
+}
+
+
+//fiter
+let filterItem = [];
+
+function filter(val) {
+    // console.log(val);
+    if (filterItem.length > 0) {
+
+        filterItem.map((itm, ind) => {
+
+            if (itm == val) {
+                // console.log("matched");
+                filterItem.splice(ind, 1); //splice method change the main array
+            } else {
+                console.log("this from else statement :" + itm);
+                filterItem.push(val);
+            }
+
+            val = "";
+        })
+
+    } else {
+        filterItem.push(val)
+
+    }
+
+    console.log("total item " + filterItem);
+
+}
