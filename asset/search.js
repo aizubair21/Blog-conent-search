@@ -153,8 +153,11 @@ function filter(val) {
             filterAlert("Default Filtering !");
             break;
     }
-    searchByFilter();
-    openFilter('hide');
+
+    if (searchInput.value != "") {
+        searchByFilter();
+        openFilter('hide');
+    }
     // console.log("total item " + filterItem);
 
 }
@@ -187,30 +190,36 @@ function filterAlert(alert_name) {
 
 // search by filter 
 function searchByFilter() {
-    if (filterItem.length > 0) {
-        filterItem.forEach(fItem => {
-            if (fItem == "df") {}
+    if (searchInput != "") {
 
-            if (fItem == "db") {
-                navSearch(searchInput.value);
-                // filterAlert("Go On Database filtering !");
-            }
+        if (filterItem.length > 0) {
+            filterItem.forEach(fItem => {
 
-            if (fItem == "cf") {
+                if (fItem == "df") {}
 
-            }
+                if (fItem == "db") {
+                    navSearch(searchInput.value);
+                    // filterAlert("Go On Database filtering !");
+                }
 
-        })
+                if (fItem == "cf") {
 
+                }
+
+            })
+
+        } else {
+            // window.addEventListener('keydown', event => {
+            //     if (event.key = "Backspace") {
+            //     }else{
+
+            //     }
+            // });
+            filterAlert("Please specify any one of filter !");
+            navSearch();
+        }
     } else {
-        // window.addEventListener('keydown', event => {
-        //     if (event.key = "Backspace") {
-        //     }else{
-
-        //     }
-        // });
-        filterAlert("Please specify any one of filter !");
-        navSearch();
+        navSearch("");
     }
 
     openFilter("hide");
