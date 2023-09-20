@@ -33,92 +33,8 @@ let testText = [
     "Zebras have distinctive black and white stripes",
 ];
 
-// searchInput.addEventListener("keyup", navSearch);
-searchInput.addEventListener('input', initNav);
-
-window.addEventListener('keydown', event => {
-    if (event.key == "/") {
-        searchInput.focus();
-    }
-
-    // console.log(event.key);
-});
-
-// get data and  pass to nav search 
-function initNav(e) {
-    let val = e.target.value;
-    // openFilter();
-    searchByFilter();
-}
-
-//nav search
-function navSearch(val) {
-
-    if (val != "" && val != null) {
-        searchResult[0].style.display = 'block';
-        queryHtml = "";
-
-        // console.log(e.target.value);
-        testText.forEach((elm, index) => {
-            // lowercase the vale 
-            let lowarCaseValue = elm.toLowerCase();
-            // console.log(lowarCaseValue);
-            if (lowarCaseValue.search(val) != -1) {
-                // console.log(elm);
-                //make html for found query 
-                queryHtml +=
-                    `
-                <div class="result-div">
-                        <div class="image">
-                            ${index}
-                        </div>
-                        
-                        <div class="desc">
-                            <h5>${elm}</h5>
-                        </div>
-                    </div>
-                `;
-
-                //show query count on search input right side
-                searchQuery[0].innerHTML = '';
-                // valu found 
-            } else {
-                //                 hide result div when nothing is found
-
-            }
-            searchResult[0].innerHTML = queryHtml;
-        })
-        // console.log(queryCount);
-        // console.log(testText);
-
-    } else {
-        searchResult[0].style.display = 'none';
-        queryHtml = '';
-        searchQuery[0].innerHTML = "";
-        searchResult[0].innerHTML = queryHtml;
-    }
-}
-
-// filter modal opena and close 
-function openFilter(condition) {
-    let filterBtn = document.getElementsByClassName('filter-btn');
-    let filterDiv = document.getElementsByClassName("filter-div");
-
-    if (filterDiv[0].classList.contains('filter-show')) {
-        filterDiv[0].classList.remove("filter-show");
-    } else {
-        filterDiv[0].classList.add("filter-show");
-    }
-
-    if (condition == "hide") {
-        filterDiv[0].classList.remove("filter-show");
-    }
-
-}
-
 //fiter
 let filterItem = [];
-
 //add flter item functionality
 function filter(val) {
     // console.log(val);
@@ -162,6 +78,119 @@ function filter(val) {
 
 }
 
+// searchInput.addEventListener("keyup", navSearch);
+searchInput.addEventListener('input', initNav);
+
+window.addEventListener('keydown', event => {
+    if (event.key == "/") {
+        searchInput.focus();
+    }
+
+    // console.log(event.key);
+});
+window.onload(callApiAndShowContent());
+// get data and  pass to nav search 
+function initNav(e) {
+    let val = e.target.value;
+    openFilter();
+    searchByFilter();
+    // callApiAndShowContent();
+    // contentSearch();
+}
+
+//nav search
+function navSearch(val) {
+
+    if (val != "" && val != null) {
+        searchResult[0].style.display = 'block';
+        queryHtml = "";
+
+        // console.log(e.target.value);
+        testText.forEach((elm, index) => {
+            // lowercase the vale 
+            let lowarCaseValue = elm.toLowerCase();
+            // console.log(lowarCaseValue);
+            if (lowarCaseValue.includes(val)) {
+                // console.log(elm);
+                //make html for found query 
+                queryHtml +=
+                    `
+                <div class="result-div">
+                        <div class="image">
+                            ${index}
+                        </div>
+                        
+                        <div class="desc">
+                            <h5>${elm}</h5>
+                        </div>
+                    </div>
+                `;
+
+                //show query count on search input right side
+                searchQuery[0].innerHTML = '';
+                // valu found 
+            } 
+            
+            searchResult[0].innerHTML = "";
+            searchResult[0].innerHTML = queryHtml;
+        })
+        // console.log(queryCount);
+        // console.log(testText);
+
+    } else {
+        searchResult[0].style.display = 'none';
+        queryHtml = '';
+        searchQuery[0].innerHTML = "";
+        searchResult[0].innerHTML = queryHtml;
+    }
+}
+
+//content search 
+function contentSearch(val) {
+    // if (val == "") return false;
+    if(val != ""){
+        // let lowerVal = val.toLowerCase();
+        let title = document.getElementsByClassName('item-title');
+        for (let t = 0; t < title.length; t++) {
+            let lowerTitle = title[t].innerHTML.toLocaleLowerCase();
+
+            title[t].parentElement.style.display = "none";
+            if(lowerTitle.search(val) != -1){
+                title[t].parentElement.style.display ="block";
+            }
+            
+        }
+        // title.forEach((ttl, index)=>{
+        //     var lowerTitle= ttl.innerText.toLowerCase();
+            
+        //     // hide all item div first 
+        //     ttl.parentElement.style.display = "none";
+        //     if (ttl.innerHTML.search(lowerVal) != -1) {
+        //         // ttl.parentElement.style.display = "block";
+        //     }
+        // });
+    }else{
+        callApiAndShowContent();
+    }
+}
+
+// filter modal opena and close 
+function openFilter(condition) {
+    let filterBtn = document.getElementsByClassName('filter-btn');
+    let filterDiv = document.getElementsByClassName("filter-div");
+
+    if (filterDiv[0].classList.contains('filter-show')) {
+        filterDiv[0].classList.remove("filter-show");
+    } else {
+        filterDiv[0].classList.add("filter-show");
+    }
+
+    if (condition == "hide") {
+        filterDiv[0].classList.remove("filter-show");
+    }
+
+}
+
 //filter alert 
 function filterAlert(alert_name) {
 
@@ -169,7 +198,7 @@ function filterAlert(alert_name) {
     p.innerHTML = alert_name;
     p.style.padding = 10 + "px";
     p.classList.add('filter_alert');
-    p.style.backgroundColor = "rgb(211,211,211)";
+    p.style.backgroundColor = "white";
     p.style.position = "fixed";
     p.style.top = 10 + "px";
     p.style.right = 0 + "px";
@@ -190,7 +219,7 @@ function filterAlert(alert_name) {
 
 // search by filter 
 function searchByFilter() {
-    if (searchInput != "") {
+    if (searchInput != "") {//if have an input
 
         if (filterItem.length > 0) {
             filterItem.forEach(fItem => {
@@ -203,12 +232,13 @@ function searchByFilter() {
                 }
 
                 if (fItem == "cf") {
-
+                    contentSearch(searchInput.value);
+                    // callApiAndShowContent();
                 }
 
             })
 
-        } else {
+        } else {//unselected filter
             // window.addEventListener('keydown', event => {
             //     if (event.key = "Backspace") {
             //     }else{
@@ -217,9 +247,11 @@ function searchByFilter() {
             // });
             filterAlert("Please specify any one of filter !");
             navSearch();
+            callApiAndShowContent();
         }
-    } else {
+    } else { //in empty input
         navSearch("");
+        callApiAndShowContent("");
     }
 
     openFilter("hide");
@@ -242,4 +274,52 @@ function showValueToInputField(search_value) {
         searchInput.focus();
 
     }
+}
+
+//call the api and show content
+function  callApiAndShowContent() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then((res)=> res.json())
+    .then((json)=>{
+        // console.log(json)
+        let html = [];
+        let html2 = [];
+        json.forEach((item, i)=>{
+            html += 
+            `
+            <div class="body-item">
+                <div class="infoBox" >${item.id}</div>
+                <img src="/asset/image/full-pc.webp" alt="${i}">
+                <a href="https://jsonplaceholder.typicode.com/posts/${item.id}" class="item-title" data-id="${item.id}">
+                 ${item.title}
+                </a>
+            </div>
+            `;
+            document.getElementById('left-content').innerHTML = html;
+            // console.log(item.title);
+
+
+            // right side 
+            if (item.userId == 2) {
+                html2 += 
+                `
+                <div class="right-item">
+                    <div class="icon">${i}</div>
+                    <a class="link" href="">${item.title}</a>
+                </div>
+                `;
+            }
+            document.getElementById('right-content').innerHTML = html2;
+
+        })
+    });
+
+    
+
+    
+
+    // fetch('https://jsonplaceholder.typicode.com/posts/1')
+    // .then((response) => response.json())
+    // .then((json) => console.log(json));
+
 }
